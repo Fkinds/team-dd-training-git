@@ -15,13 +15,13 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: test -z "$(grep -rn 'console.log' --include='*.js' . || true)"
 
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: members の自己紹介が 20 行以内であることを確かめる
         run: |
           for f in members/*.md; do
@@ -29,4 +29,3 @@ jobs:
             echo "$f: $lines 行"
             test "$lines" -le 20
           done
-          sleep 90
