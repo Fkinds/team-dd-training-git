@@ -1,0 +1,32 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: test -z "$(grep -rn 'console.log' --include='*.js' . || true)"
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: members の自己紹介が 20 行以内であることを確かめる
+        run: |
+          for f in members/*.md; do
+            lines=$(wc -l < "$f")
+            echo "$f: $lines 行"
+            test "$lines" -le 20
+          done
+          sleep 90
